@@ -3,26 +3,24 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
-#include "fasta.h"
+#include "FastaReader.h"
 
 using namespace std;
 
 class sequence
 {
-	friend class fasta;
 private:
 	string header;
 	string DNA;
 
-public:
-	static sequence Getheader(string& line,sequence &A);
-    static sequence GetDNA(string& line,  sequence& A);
-	static sequence FastaSequenceLoad(ifstream& file);
-    string ReturnHeader(sequence& A);
-	string ReturnDNA(sequence& A);
-	void OutpHeader(sequence& A);
-	void OutpDNA(sequence& A);
+public://包含了序列的header,DNA,序列长度的提取还有打印。
+	//AI提议的构造函数
+	sequence(const string&h="",const string&d=""):header(h),DNA(d){}
 
-	
+	string Getheader()const { return header; }
+	string GetDNA()const { return DNA; }
+	size_t length()const { return DNA.length(); }
+	string PrintHeader() { cout << header; }
+	string PrintDNA() { cout << DNA; }
 };
 
