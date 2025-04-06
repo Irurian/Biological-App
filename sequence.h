@@ -20,7 +20,8 @@ public://包含了序列的header,DNA,序列长度的提取还有打印。
 	string Getheader()const { return header; }
 	string GetDNA()const { return DNA; }
 	size_t length()const { return DNA.length(); }
-	string PrintHeader() { cout << header; }
-	string PrintDNA() { cout << DNA; }
+	void PrintHeader() { cout << header; }
+	void PrintDNA() { cout << DNA; }
+	void AddDNA(const string& line) { DNA += line; }
 };
 
