@@ -9,8 +9,7 @@ class FastaReader  //fastaÊÇÒ»ÖÖ´¿ÎÄ±¾¸ñÊ½£¬»ù±¾½á¹¹Îª£º¡°µÚÒ»ĞĞÒÔ>Îª¿ªÍ·£¬ºó¸úĞ
 {
 public:
 	static vector<sequence> FastaReadALL(const string& filepath);
-
 	/*ÁíÒ»ÖÖÓÃÖ¸Õë´«ÖµµÄ·½·¨£¬ÒªdeleteÃ»ÓĞÄÇÃ´ºÃ£ºvector<sequence>* CreateSequences(sequence& Current);*/ 
-
+	bool WordJudge(char &i);//¶Ô¶ÁÈë×Ö·ûºÏ·¨ĞÔ½øĞĞÅĞ¶Ï(ÒÑ²âÊÔ)
 };
 

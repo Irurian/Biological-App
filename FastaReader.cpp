@@ -5,47 +5,75 @@
 #include<fstream>
 using namespace std;
 
+bool FastaReader::WordJudge(char &i)
+{
+	i = toupper(i);//大小写兼容
+	return (i == 'A' || i == 'T' || i == 'C' || i == 'G' || i == 'N' || i == '>');
+}
+
 vector<sequence> FastaReader::FastaReadALL(const string& filepath)
 {
+	string cleanedPath = filepath;
 	vector<sequence> sequences;
-	ifstream file(filepath);
+	ifstream file(cleanedPath);
+
+	FastaReader p1;
 	//文件输入异常的处理(AI)
 	if (!file.is_open())
 	{
-		throw runtime_error("无法打开FASTA文件：" + filepath);
+		throw runtime_error("无法打开FASTA文件：" + cleanedPath);
 	}
-
+	
 	sequence Current;//当前指针读取的DNA序列，含有header 和 DNA
 	string line;//FASTA文件的某一行字符串
+	/*size_t line_number = 0;*/
+	bool isHeader = false;
 
-	while (getline(file, line))
-	{
-		if (line.empty())continue;
-		if (line[0] == '>')
-		{
-			//如果之前有序列先保存（AI）
-			if (!Current.Getheader().empty())//对Current的header判断，如果header存在证明该序列合法，进行读取（判断输入合法性）
+	while (getline(file, line)) 
+	{//移除行首尾的空白，这些处理格式非常重要，不然影响输出和程序韧性
+		line.erase(0, line.find_first_not_of("\t\r\n"));
+		line.erase(line.find_last_not_of(" \t\r\n") + 1);
+
+		if (line.empty()) continue;
+
+		if (line[0] == '>') 
+		{   
+			// 保存前一个序列
+			if (!Current.Getheader().empty()) 
 			{
 				sequences.push_back(Current);
 			}
-			Current = sequence(line.substr(1));//string::substr(&索引，&提取字串长度),省略字串长度时自动提取到string末尾。初始化Current
+			Current.Clear();
+
+			// 设置新header（去掉>和首尾空白）erase()函数的运用
+			string header = line.substr(1);
+			header.erase(0, header.find_first_not_of(" \t"));
+			header.erase(header.find_last_not_of(" \t") + 1);
+			Current.AddHeader(header);
+			bool isHeader = true;
 		}
-		else//没有header读取DNA
+		else if(isHeader == false)
 		{
-			Current.AddDNA(line);
+			// 处理DNA行
+			for (char c : line)
+			{
+				if (p1.WordJudge(c))
+				{
+					Current.AddDNA(c);
+				}
+			}
+			
 		}
 	}
 
 	if (!Current.Getheader().empty())//重点在于连续读取和储存FASTA中的多个序列，Current为临时的值，需要多次返回加入到Current中
 		//最后一行读取完后还有一个序列没有保存所以在循环外部还需要再来依次保存
 	{
-		sequences.push_back(Current);//Vector类对象.push_back(返回容器/指针）,是vector类动态添加元素并赋值的函数。
-		//Vector类对象.insert(对象.begin()+n ，要插入的值 ）用于向vector类中指定位置插入对象。
-		// 例如：sequences.insert(sequences.begin() + 2,Current);
+		sequences.push_back(Current);
 	}
-			
 	return sequences;
 }
+	
 
 /*版本1中返回当前读取完行的初始位置指针的方式——.seekg(-offset, std::ios_base::cur);
 streamoff offset = line.size() + 1;
