@@ -6,13 +6,13 @@
 #include<iomanip>
 using namespace std;
 
-//¿ÉÒÔ¼ÓÉÏDNA³¤¶ÈÎª0µÄ¼ì²â
+//å¯ä»¥åŠ ä¸ŠDNAé•¿åº¦ä¸º0çš„æ£€æµ‹
 void SequenceAnalyzer::SaveData(const sequence& seq) {
 	string DNA = seq.GetDNA();
 	for (auto& A : DNA){
-		A = toupper(A);//¼æÈİ´óĞ¡Ğ´ÊäÈë
+		A = toupper(A);//å…¼å®¹å¤§å°å†™è¾“å…¥
 		switch (A) {
-		case 'A':this->A += 1; break;
+		case'A':this->A += 1; break;
 		case'T':this->T += 1; break;
 		case'C':this->C += 1; break;
 		case'G':this->G += 1; break;
@@ -22,7 +22,7 @@ void SequenceAnalyzer::SaveData(const sequence& seq) {
 	this->total_length = A + T + C + G + N;
 	this->gc_count = C + G;
 
-	this->gc_content = static_cast<double>(gc_count) / total_length;//×î¸ß¾«¶ÈµÄÊäÈë¸ñÊ½£ºÄÚ´æÖĞµÄdoubleÀàĞÍ±¾Éí¾ßÓĞÔ¼15-17Î»Ê®½øÖÆ¾«¶È£¬Äú²»ĞèÒª£¨Ò²ÎŞ·¨£©ÔÚÊı¾İÊäÈëÊ±ÏŞÖÆÆä´æ´¢¾«¶È
+	this->gc_content = static_cast<double>(gc_count) / total_length;//æœ€é«˜ç²¾åº¦çš„è¾“å…¥æ ¼å¼ï¼šå†…å­˜ä¸­çš„doubleç±»å‹æœ¬èº«å…·æœ‰çº¦15-17ä½åè¿›åˆ¶ç²¾åº¦ï¼Œæ‚¨ä¸éœ€è¦ï¼ˆä¹Ÿæ— æ³•ï¼‰åœ¨æ•°æ®è¾“å…¥æ—¶é™åˆ¶å…¶å­˜å‚¨ç²¾åº¦
 }
 
 vector<SequenceAnalyzer> SequenceAnalyzer::UpdateAnalyzers(const SequenceAnalyzer& Ana, vector<SequenceAnalyzer>Analyzers){
@@ -34,7 +34,7 @@ vector<SequenceAnalyzer> SequenceAnalyzer::UpdateAnalyzers(const SequenceAnalyze
 void SequenceAnalyzer::PrintAnalyzes(vector<SequenceAnalyzer>Analyzers)const {
 	int i = 1;
 	for (auto& A : Analyzers) {
-		cout << "ĞòÁĞ" << i << endl;
+		cout << "åºåˆ—" << i << endl;
 		cout << "=============" << endl;
 		A.PrintAnalyze();
 		++i;
@@ -42,16 +42,16 @@ void SequenceAnalyzer::PrintAnalyzes(vector<SequenceAnalyzer>Analyzers)const {
 	cout << "=============" << endl;
 }
 
-void SequenceAnalyzer::PrintAnalyze() const {  // Ìí¼ÓconstĞŞÊÎ
-	cout << fixed << setprecision(2);  // ¹Ì¶¨Ğ¡ÊıÎ»Êı
-	cout << "DNA×Ü³¤¶ÈÎª£º" << total_length << endl;
-	cout << "DNAµÄGCº¬Á¿Îª£º" << gc_content * 100 << "%" << endl;  // ÏÔÊ¾Îª°Ù·Ö±È
+void SequenceAnalyzer::PrintAnalyze() const {  // æ·»åŠ constä¿®é¥°
+	cout << fixed << setprecision(2);  // å›ºå®šå°æ•°ä½æ•°
+	cout << "DNAæ€»é•¿åº¦ä¸ºï¼š" << total_length << endl;
+	cout << "DNAçš„GCå«é‡ä¸ºï¼š" << gc_content * 100 << "%" << endl;  // æ˜¾ç¤ºä¸ºç™¾åˆ†æ¯”
 	PrintBaseCounts();
 }
 
 void SequenceAnalyzer::PrintBaseCounts() const {
 	const int col_width = 15;
-	cout << left;  // ×ó¶ÔÆë
+	cout << left;  // å·¦å¯¹é½
 	cout << setw(col_width) << "A:" << A << endl;
 	cout << setw(col_width) << "T:" << T << endl;
 	cout << setw(col_width) << "C:" << C << endl;
@@ -59,18 +59,18 @@ void SequenceAnalyzer::PrintBaseCounts() const {
 	cout << setw(col_width) << "N:" << N << endl;
 }
 
-/*×Ô¼ºĞ´µÄ×î³õÄ£°å
+/*è‡ªå·±å†™çš„æœ€åˆæ¨¡æ¿
 void SequenceAnalyzer::PrintBaseCounts() {
-	cout << "DNAÖĞA¼î»ùÊıÁ¿Îª£º" << this->A<<endl;
-	cout << "DNAÖĞT¼î»ùÊıÁ¿Îª£º" << this->T << endl;
-	cout << "DNAÖĞC¼î»ùÊıÁ¿Îª£º" << this->C << endl;
-	cout << "DNAÖĞG¼î»ùÊıÁ¿Îª£º" << this->G << endl;
-	cout << "DNAÖĞN¼î»ùÊıÁ¿Îª£º" << this->N << endl;
+	cout << "DNAä¸­Aç¢±åŸºæ•°é‡ä¸ºï¼š" << this->A<<endl;
+	cout << "DNAä¸­Tç¢±åŸºæ•°é‡ä¸ºï¼š" << this->T << endl;
+	cout << "DNAä¸­Cç¢±åŸºæ•°é‡ä¸ºï¼š" << this->C << endl;
+	cout << "DNAä¸­Gç¢±åŸºæ•°é‡ä¸ºï¼š" << this->G << endl;
+	cout << "DNAä¸­Nç¢±åŸºæ•°é‡ä¸ºï¼š" << this->N << endl;
 }
 
 void SequenceAnalyzer::PrintAnalyze( ) {
-	cout <<"DNA×Ü³¤¶ÈÎª£º"<< this->total_length<<endl;
-	cout << "DNAµÄGCº¬Á¿Îª£º" << this->gc_content << endl;
+	cout <<"DNAæ€»é•¿åº¦ä¸ºï¼š"<< this->total_length<<endl;
+	cout << "DNAçš„GCå«é‡ä¸ºï¼š" << this->gc_content << endl;
 	this->PrintBaseCounts();
 }
 */
@@ -100,4 +100,4 @@ string SequenceAnalyzer::ToJSON()const{
 		<< "\"length\":" << total_length
 		<< "}";
 	return oss.str();
-}//AI ½¨ÒéµÄJSON¸ñÊ½Êä³ö
+}//AI å»ºè®®çš„JSONæ ¼å¼è¾“å‡º
